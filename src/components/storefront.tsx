@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AudioPlayer } from "@/components/audio-player";
-import { computeOptimizedPrice, formatUsd } from "@/lib/pricing";
+import { computeOptimizedPrice, formatCad } from "@/lib/pricing";
 import type { PublicTrack } from "@/lib/tracks";
 
 type StorefrontProps = {
@@ -57,49 +57,49 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
   };
 
   return (
-    <section className="fade-in grid gap-6 lg:grid-cols-[1fr_350px]">
-      <div className="space-y-5">
+    <section className="fade-in grid gap-4 md:gap-6 lg:grid-cols-[1fr_350px]">
+      <div className="space-y-3 md:space-y-5">
         {visibleTracks.map((track) => {
           const isOwned = ownedSet.has(track.slug);
           const inCart = cartSet.has(track.slug);
           return (
             <article
               key={track.slug}
-              className="track-card group flex flex-col gap-2.5 rounded-2xl border border-white/20 bg-[#171725]/68 p-3.5 backdrop-blur-md transition duration-300 hover:scale-[1.01] hover:border-cyan-200/45 hover:shadow-[0_0_28px_rgba(56,189,248,0.24)] md:flex-row md:p-3.5"
+              className="track-card group flex gap-2.5 rounded-xl border border-white/20 bg-[#171725]/68 p-2.5 backdrop-blur-md transition duration-300 hover:scale-[1.01] hover:border-cyan-200/45 hover:shadow-[0_0_28px_rgba(56,189,248,0.24)] md:gap-3.5 md:rounded-2xl md:p-3.5"
             >
-              <div className="w-full md:w-32 md:shrink-0">
-                <div className="relative aspect-[5/4] overflow-hidden rounded-xl border border-white/15 md:aspect-square">
+              <div className="w-24 shrink-0 md:w-32">
+                <div className="relative aspect-square overflow-hidden rounded-lg border border-white/15 md:rounded-xl">
                   <Image
                     src={track.thumbnailUrl ?? "/assets/default-track-cover.png"}
                     alt={`Miniature de ${track.title}`}
                     fill
                     className="object-cover transition duration-300 group-hover:scale-[1.03]"
-                    sizes="(max-width: 768px) 100vw, 160px"
+                    sizes="(max-width: 768px) 96px, 160px"
                   />
                 </div>
-                <p className="mt-1.5 text-center text-sm font-semibold tracking-[0.16em] text-cyan-200">
-                  {isOwned ? "DEJA ACHETEE" : "$1.99"}
+                <p className="mt-1.5 text-center text-xs font-semibold tracking-[0.12em] text-cyan-200 md:text-sm md:tracking-[0.16em]">
+                  {isOwned ? "DEJA ACHETEE" : formatCad(199)}
                 </p>
                 <button
                   type="button"
                   disabled={isOwned}
                   onClick={() => toggleTrackInCart(track.slug)}
-                  className="mt-2 w-full rounded-lg bg-cyan-300 px-3 py-2 text-xs font-semibold text-[#04101c] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-zinc-700 disabled:text-zinc-400"
+                  className="mt-1.5 w-full rounded-lg bg-cyan-300 px-2 py-1.5 text-[11px] font-semibold text-[#04101c] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-zinc-700 disabled:text-zinc-400 md:mt-2 md:px-3 md:py-2 md:text-xs"
                 >
                   {isOwned ? "Possedee" : inCart ? "Retirer" : "Ajouter"}
                 </button>
               </div>
 
               <div className="flex flex-1 flex-col justify-center text-center">
-                <h3 className="text-xl font-semibold text-white">{track.title}</h3>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-cyan-200/80">
-                  Duree: {track.duration} • Ambiance: {track.mood}
+                <h3 className="text-base font-semibold text-white md:text-xl">{track.title}</h3>
+                <p className="mt-0.5 text-[10px] uppercase tracking-[0.15em] text-cyan-200/80 md:mt-1 md:text-xs md:tracking-[0.2em]">
+                  Duree: {track.duration} | Ambiance: {track.mood}
                 </p>
-                <p className="mt-1.5 text-sm text-zinc-300">
-                  Ideal pour: sommeil • relaxation • concentration
+                <p className="mt-1 text-xs text-zinc-300 md:mt-1.5 md:text-sm">
+                  Ideal pour: sommeil | relaxation | concentration
                 </p>
 
-                <div className="mt-2.5 grid gap-2">
+                <div className="mt-2 grid gap-1.5 md:mt-2.5 md:gap-2">
                   {track.previewUrl && (
                     <AudioPlayer src={track.previewUrl} label="Preview" maxSeconds={30} />
                   )}
@@ -108,18 +108,17 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
                     <AudioPlayer src={track.fullUrl} label="Ecoute complete" />
                   )}
                 </div>
-
               </div>
             </article>
           );
         })}
 
         {tracks.length > initialVisibleCount && (
-          <div className="pt-1">
+          <div className="pt-0.5 md:pt-1">
             <button
               type="button"
               onClick={() => setShowAllTracks((prev) => !prev)}
-              className="rounded-lg border border-cyan-200/35 bg-cyan-200/10 px-4 py-2 text-sm text-cyan-100 transition hover:scale-[1.02] hover:bg-cyan-200/20"
+              className="rounded-lg border border-cyan-200/35 bg-cyan-200/10 px-3 py-1.5 text-xs text-cyan-100 transition hover:scale-[1.02] hover:bg-cyan-200/20 md:px-4 md:py-2 md:text-sm"
             >
               {showAllTracks ? "Afficher moins de tracks" : "Afficher plus de tracks"}
             </button>
@@ -127,33 +126,33 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
         )}
       </div>
 
-      <aside className="fade-in h-fit rounded-2xl border border-cyan-200/30 bg-[#081223]/95 p-6 shadow-[0_0_36px_rgba(56,189,248,0.18)] lg:sticky lg:top-5">
-        <h2 className="text-2xl font-semibold text-white">Panier</h2>
-        <p className="mt-2 text-sm text-zinc-300">{selectedTracks.length} track(s)</p>
-        <div className="mt-4 rounded-xl border border-white/15 bg-black/30 p-4">
+      <aside className="fade-in h-fit rounded-2xl border border-cyan-200/30 bg-[#081223]/95 p-4 shadow-[0_0_36px_rgba(56,189,248,0.18)] md:p-6 lg:sticky lg:top-5">
+        <h2 className="text-xl font-semibold text-white md:text-2xl">Panier</h2>
+        <p className="mt-1.5 text-xs text-zinc-300 md:mt-2 md:text-sm">{selectedTracks.length} track(s)</p>
+        <div className="mt-3 rounded-xl border border-white/15 bg-black/30 p-3 md:mt-4 md:p-4">
           <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Total</p>
-          <p className="mt-1 text-4xl font-bold text-cyan-100">{formatUsd(pricing.totalCents)}</p>
-          <p className="mt-2 text-xs text-zinc-400">
+          <p className="mt-1 text-3xl font-bold text-cyan-100 md:text-4xl">{formatCad(pricing.totalCents)}</p>
+          <p className="mt-1.5 text-[11px] text-zinc-400 md:mt-2 md:text-xs">
             Packs: {pricing.packs10}x10, {pricing.packs5}x5, {pricing.singles}x1
           </p>
-          <div className="mt-3 space-y-1 text-xs text-zinc-300">
-            <p>1 track = $1.99</p>
-            <p>5 tracks = $7.99</p>
-            <p>10 tracks = $9.99</p>
+          <div className="mt-2.5 space-y-0.5 text-[11px] text-zinc-300 md:mt-3 md:space-y-1 md:text-xs">
+            <p>1 track = {formatCad(199)}</p>
+            <p>5 tracks = {formatCad(799)}</p>
+            <p>10 tracks = {formatCad(999)}</p>
           </div>
         </div>
 
-        <ul className="mt-4 space-y-1 text-sm text-zinc-200">
-          <li>✔ Telechargement immediat</li>
-          <li>✔ Acces illimite</li>
-          <li>✔ Paiement securise</li>
+        <ul className="mt-3 space-y-1 text-xs text-zinc-200 md:mt-4 md:text-sm">
+          <li>Telechargement immediat</li>
+          <li>Acces illimite</li>
+          <li>Paiement securise</li>
         </ul>
 
         <button
           type="button"
           onClick={checkout}
           disabled={loadingCheckout || selectedTracks.length === 0}
-          className="mt-5 w-full rounded-xl bg-gradient-to-r from-cyan-300 to-blue-300 px-5 py-4 text-lg font-bold text-[#071420] shadow-[0_10px_26px_rgba(45,212,191,0.35)] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-4 w-full rounded-xl bg-gradient-to-r from-cyan-300 to-blue-300 px-4 py-3 text-base font-bold text-[#071420] shadow-[0_10px_26px_rgba(45,212,191,0.35)] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 md:mt-5 md:px-5 md:py-4 md:text-lg"
         >
           {loadingCheckout ? "Redirection..." : "Payer"}
         </button>

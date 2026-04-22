@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         {
           quantity: 1,
           price_data: {
-            currency: "usd",
+            currency: "cad",
             unit_amount: pricing.totalCents,
             product_data: {
               name: `Nebula Dream - ${selectedTracks.length} track(s)`,

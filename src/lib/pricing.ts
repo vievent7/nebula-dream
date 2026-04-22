@@ -31,9 +31,13 @@ export function computeOptimizedPrice(trackCount: number): PricingBreakdown {
   };
 }
 
-export function formatUsd(cents: number): string {
-  return new Intl.NumberFormat("en-US", {
+export function formatCad(cents: number): string {
+  return new Intl.NumberFormat("en-CA", {
     style: "currency",
-    currency: "USD",
+    currency: "CAD",
   }).format(cents / 100);
+}
+
+export function formatUsd(cents: number): string {
+  return formatCad(cents);
 }

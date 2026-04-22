@@ -32,7 +32,7 @@ export function HeroScrollButton() {
     <a
       href="#tracks"
       onClick={handlePrimaryClick}
-      className="hero-breathe hero-cta-primary rounded-full px-8 py-3 text-base font-semibold text-[#04111f]"
+      className="hero-breathe hero-cta-primary rounded-full px-5 py-2 text-sm font-semibold text-[#04111f] md:px-8 md:py-3 md:text-base"
     >
       Ecouter maintenant
     </a>

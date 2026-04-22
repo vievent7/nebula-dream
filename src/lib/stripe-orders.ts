@@ -42,7 +42,7 @@ export async function upsertPaidOrderFromCheckoutSession(session: Stripe.Checkou
       userId,
       stripeSessionId: session.id,
       totalCents: session.amount_total,
-      currency: session.currency ?? "usd",
+      currency: session.currency ?? "cad",
       status: "paid",
       items: {
         create: uniqueSlugs.map((slug) => ({

@@ -24,25 +24,25 @@ export default async function HomePage() {
   const mobileHeroCards = heroCards.slice(0, 2);
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-7xl px-4 py-6 md:px-8">
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
+    <div className="mx-auto min-h-screen w-full max-w-7xl px-3 py-4 md:px-8 md:py-6">
+      <header className="mb-4 flex flex-wrap items-center justify-between gap-2.5 md:mb-6 md:gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">Nebula Dream</p>
-          <h1 className="text-3xl font-bold text-white md:text-4xl">Musiques Relaxantes</h1>
+          <h1 className="text-2xl font-bold text-white md:text-4xl">Musiques Relaxantes</h1>
         </div>
-        <nav className="flex items-center gap-2">
+        <nav className="flex items-center gap-1.5 md:gap-2">
           {user ? (
             <>
               <Link
                 href="/compte"
-                className="rounded-lg border border-white/20 px-3 py-2 text-sm hover:bg-white/10"
+                className="rounded-lg border border-white/20 px-2.5 py-1.5 text-xs hover:bg-white/10 md:px-3 md:py-2 md:text-sm"
               >
                 Mon compte
               </Link>
               {user.role === "ADMIN" && (
                 <Link
                   href="/admin"
-                  className="rounded-lg border border-cyan-200/40 bg-cyan-200/10 px-3 py-2 text-sm text-cyan-100 hover:bg-cyan-200/20"
+                  className="rounded-lg border border-cyan-200/40 bg-cyan-200/10 px-2.5 py-1.5 text-xs text-cyan-100 hover:bg-cyan-200/20 md:px-3 md:py-2 md:text-sm"
                 >
                   Admin
                 </Link>
@@ -53,13 +53,13 @@ export default async function HomePage() {
             <>
               <Link
                 href="/login"
-                className="rounded-lg border border-white/20 px-3 py-2 text-sm hover:bg-white/10"
+                className="rounded-lg border border-white/20 px-2.5 py-1.5 text-xs hover:bg-white/10 md:px-3 md:py-2 md:text-sm"
               >
                 Connexion
               </Link>
               <Link
                 href="/signup"
-                className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#071420]"
+                className="rounded-lg bg-white px-2.5 py-1.5 text-xs font-semibold text-[#071420] md:px-3 md:py-2 md:text-sm"
               >
                 Inscription
               </Link>
@@ -68,8 +68,8 @@ export default async function HomePage() {
         </nav>
       </header>
 
-      <section className="nebula-hero fade-in mb-8 overflow-hidden rounded-3xl border border-white/20 bg-black/25">
-        <div className="relative h-52 w-full md:h-64">
+      <section className="nebula-hero fade-in mb-5 overflow-hidden rounded-2xl border border-white/20 bg-black/25 md:mb-8 md:rounded-3xl">
+        <div className="relative h-32 w-full md:h-64">
           <Image
             src="/assets/banner-top.png"
             alt="Ambiance relaxante"
@@ -79,13 +79,13 @@ export default async function HomePage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-[#040912]/70" />
-          <p className="hero-banner-copy absolute bottom-4 left-1/2 w-[90%] -translate-x-1/2 text-center md:bottom-6">
+          <p className="hero-banner-copy absolute bottom-2 left-1/2 w-[90%] -translate-x-1/2 text-center md:bottom-6">
             Respire. Ralentis. Laisse la nuit, la nature et les textures cosmiques guider ton
             calme.
           </p>
         </div>
 
-        <div className="relative min-h-[40vh] px-6 py-8 text-center md:min-h-[46vh]">
+        <div className="relative min-h-[22vh] px-3 py-4 text-center md:min-h-[46vh] md:px-6 md:py-8">
           <div className="pointer-events-none absolute inset-0 hidden md:block">
             {heroCards.map((card) => {
               const positionStyle = desktopHeroCardPositions[card.slot];
@@ -111,25 +111,25 @@ export default async function HomePage() {
                 key={`mobile-${card.src}-${index}`}
                 className="hero-card absolute overflow-hidden rounded-full border border-cyan-100/35 opacity-40"
                 style={{
-                  width: "145px",
-                  height: "145px",
-                  left: index === 0 ? "-4%" : "66%",
-                  top: index === 0 ? "69%" : "71%",
+                  width: "108px",
+                  height: "108px",
+                  left: index === 0 ? "-10%" : "74%",
+                  top: index === 0 ? "64%" : "66%",
                 }}
               >
-                <Image src={card.src} alt="" fill className="object-cover" sizes="145px" />
+                <Image src={card.src} alt="" fill className="object-cover" sizes="108px" />
               </div>
             ))}
           </div>
 
-          <div className="relative z-10 flex min-h-[40vh] flex-col items-center justify-center md:min-h-[46vh]">
-            <h2 className="hero-copy max-w-2xl text-center text-3xl text-white md:text-5xl">
+          <div className="relative z-10 flex min-h-[22vh] flex-col items-center justify-center md:min-h-[46vh]">
+            <h2 className="hero-copy max-w-2xl text-center text-xl text-white md:text-5xl">
               Entrez dans un univers calme et apaisant
             </h2>
-            <p className="mt-3 max-w-xl text-center text-sm text-zinc-200 md:text-base">
+            <p className="mt-2 max-w-xl text-center text-xs text-zinc-200 md:mt-3 md:text-base">
               Ecoute immersive, ambiance cosmique et acces instantane a tes musiques relaxantes.
             </p>
-            <div className="mt-6">
+            <div className="mt-4 md:mt-6">
               <HeroScrollButton />
             </div>
           </div>
@@ -138,7 +138,7 @@ export default async function HomePage() {
 
       <div
         id="tracks"
-        className="nebula-catalog tracks-hidden rounded-3xl border border-white/10 p-4 scroll-mt-20"
+        className="nebula-catalog tracks-hidden scroll-mt-20 rounded-2xl border border-white/10 p-3 md:rounded-3xl md:p-4"
       >
         <Storefront tracks={publicTracks} ownedSlugs={ownedSlugs} isLoggedIn={Boolean(user)} />
       </div>
