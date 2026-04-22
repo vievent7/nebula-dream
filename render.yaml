@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: nebula-dream
+    runtime: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npx prisma migrate deploy && npm run start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DATABASE_URL
+        value: file:/var/data/dev.db
+      - key: APP_URL
+        value: https://www.skystores.org
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://www.skystores.org
+      - key: SHOW_DEBUG_RESET_URL
+        value: false
+      - key: SMTP_TLS_REJECT_UNAUTHORIZED
+        value: true
+      - key: AUTH_SECRET
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_SECURE
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+    disks:
+      - name: nebula-data
+        mountPath: /var/data
+        sizeGB: 1

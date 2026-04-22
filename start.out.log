@@ -1,0 +1,8 @@
+
+> nebula-dream@0.1.0 start
+> next start -p 4020
+
+▲ Next.js 16.2.4
+- Local:         http://localhost:4020
+- Network:       http://10.0.0.44:4020
+✓ Ready in 289ms

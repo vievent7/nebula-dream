@@ -1,0 +1,10 @@
+
+> nebula-dream@0.1.0 dev
+> next dev -p 4010
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:4010
+- Network:       http://10.0.0.44:4010
+- Environments: .env
+✓ Ready in 813ms
+[?25h
