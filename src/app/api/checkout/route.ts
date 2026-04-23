@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     const pricing = computeOptimizedPrice(selectedTracks.length);
     const stripe = getStripe();
     const appUrl = getPublicAppUrl();
+    const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX_ENABLED === "true";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
       cancel_url: `${appUrl}/`,
       customer_email: user.email,
       billing_address_collection: "required",
-      automatic_tax: { enabled: true },
+      automatic_tax: { enabled: automaticTaxEnabled },
       line_items: [
         {
           quantity: 1,
