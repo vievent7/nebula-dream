@@ -70,8 +70,8 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
   };
 
   return (
-    <section className="fade-in grid grid-cols-[minmax(0,1fr)_132px] gap-2.5 md:gap-6 lg:grid-cols-[1fr_350px]">
-      <div className="space-y-3 md:space-y-5">
+    <section className="fade-in flex flex-col gap-4 md:gap-6 lg:grid lg:grid-cols-[1fr_350px]">
+      <div className="order-2 space-y-3 md:space-y-5 lg:order-1">
         {visibleTracks.map((track) => {
           const isOwned = ownedSet.has(track.slug);
           const inCart = cartSet.has(track.slug);
@@ -139,24 +139,24 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
         )}
       </div>
 
-      <aside className="fade-in sticky top-2 h-fit self-start rounded-xl border border-cyan-200/30 bg-[#081223]/95 p-2.5 shadow-[0_0_36px_rgba(56,189,248,0.18)] md:top-4 md:rounded-2xl md:p-6 lg:top-5">
-        <h2 className="text-sm font-semibold text-white md:text-2xl">Panier</h2>
-        <p className="mt-1 text-[10px] text-zinc-300 md:mt-2 md:text-sm">{selectedTracks.length} track(s)</p>
+      <aside className="fade-in order-1 w-full rounded-2xl border border-cyan-200/30 bg-[#081223]/95 p-4 shadow-[0_0_36px_rgba(56,189,248,0.18)] md:p-6 lg:order-2 lg:sticky lg:top-5">
+        <h2 className="text-xl font-semibold text-white md:text-2xl">Panier</h2>
+        <p className="mt-1.5 text-xs text-zinc-300 md:mt-2 md:text-sm">{selectedTracks.length} track(s)</p>
         <div className="mt-3 rounded-xl border border-white/15 bg-black/30 p-3 md:mt-4 md:p-4">
-          <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-400 md:text-xs md:tracking-[0.2em]">Sous-total (HT)</p>
-          <p className="mt-1 text-lg font-bold text-cyan-100 md:text-4xl">{formatCad(pricing.totalCents)}</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Sous-total (HT)</p>
+          <p className="mt-1 text-3xl font-bold text-cyan-100 md:text-4xl">{formatCad(pricing.totalCents)}</p>
           <p className="mt-1.5 text-[11px] text-zinc-400 md:mt-2 md:text-xs">
             Packs: {pricing.packs10}x10, {pricing.packs5}x5, {pricing.singles}x1
           </p>
           <p className="mt-2 text-[11px] text-cyan-100/85 md:text-xs">Taxes calculees a la caisse.</p>
-          <div className="mt-2 space-y-0.5 text-[10px] text-zinc-300 md:mt-3 md:space-y-1 md:text-xs">
+          <div className="mt-2.5 space-y-0.5 text-[11px] text-zinc-300 md:mt-3 md:space-y-1 md:text-xs">
             <p>1 track = {formatCad(199)}</p>
             <p>5 tracks = {formatCad(799)}</p>
             <p>10 tracks = {formatCad(999)}</p>
           </div>
         </div>
 
-        <ul className="mt-2.5 space-y-1 text-[10px] text-zinc-200 md:mt-4 md:text-sm">
+        <ul className="mt-3 space-y-1 text-xs text-zinc-200 md:mt-4 md:text-sm">
           <li>Telechargement immediat</li>
           <li>Acces illimite</li>
           <li>Paiement securise</li>
@@ -166,7 +166,7 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
           type="button"
           onClick={checkout}
           disabled={loadingCheckout || selectedTracks.length === 0}
-          className="mt-3 w-full rounded-xl bg-gradient-to-r from-cyan-300 to-blue-300 px-2.5 py-2 text-xs font-bold text-[#071420] shadow-[0_10px_26px_rgba(45,212,191,0.35)] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 md:mt-5 md:px-5 md:py-4 md:text-lg"
+          className="mt-4 w-full rounded-xl bg-gradient-to-r from-cyan-300 to-blue-300 px-4 py-3 text-base font-bold text-[#071420] shadow-[0_10px_26px_rgba(45,212,191,0.35)] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 md:mt-5 md:px-5 md:py-4 md:text-lg"
         >
           {loadingCheckout ? "Redirection..." : "Payer"}
         </button>
