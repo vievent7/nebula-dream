@@ -1,6 +1,11 @@
-﻿export default function TermsPage() {
+﻿import Link from "next/link";
+
+export default function TermsPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10 text-zinc-100">
+      <Link href="/" className="mb-6 inline-block text-sm text-cyan-200 underline">
+        Retour a l&apos;accueil
+      </Link>
       <h1 className="text-2xl font-semibold">Conditions d&apos;utilisation</h1>
       <p className="mt-4 text-sm text-zinc-300">
         L&apos;utilisation du site implique l&apos;acceptation des presentes conditions. Les contenus audio

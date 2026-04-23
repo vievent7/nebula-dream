@@ -1,6 +1,11 @@
-﻿export default function SalesPage() {
+﻿import Link from "next/link";
+
+export default function SalesPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-10 text-zinc-100">
+      <Link href="/" className="mb-6 inline-block text-sm text-cyan-200 underline">
+        Retour a l&apos;accueil
+      </Link>
       <h1 className="text-2xl font-semibold">Conditions de vente</h1>
 
       <section className="mt-4 space-y-4 text-sm text-zinc-300">
