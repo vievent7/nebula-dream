@@ -4,7 +4,11 @@
       <h1 className="text-2xl font-semibold">Politique de confidentialité</h1>
 
       <section className="mt-4 space-y-4 text-sm text-zinc-300">
-        <p>Nebula Dream accorde une grande importance à la protection des données personnelles.</p>
+        <p>
+          Nebula Dream accorde une grande importance à la protection des données personnelles.
+          Cette politique explique de façon claire quelles données sont collectées, pourquoi elles
+          sont utilisées et comment elles sont protégées.
+        </p>
 
         <div className="space-y-2">
           <h2 className="text-base font-semibold text-zinc-100">1. Données collectées</h2>
@@ -26,6 +30,7 @@
             <li>le traitement des paiements</li>
             <li>la livraison des fichiers audio</li>
             <li>l&apos;envoi d&apos;emails liés au service (confirmation, accès aux produits)</li>
+            <li>la sécurité du service et la prévention des usages frauduleux</li>
           </ul>
         </div>
 
@@ -44,6 +49,10 @@
             Des mesures de sécurité sont mises en place afin de protéger les données contre tout
             accès non autorisé.
           </p>
+          <p>
+            Nous limitons l&apos;accès aux informations personnelles aux seules personnes et services
+            nécessaires au fonctionnement de Nebula Dream.
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -56,7 +65,10 @@
 
         <div className="space-y-2">
           <h2 className="text-base font-semibold text-zinc-100">6. Modifications</h2>
-          <p>Nebula Dream se réserve le droit de modifier cette politique à tout moment.</p>
+          <p>
+            Nebula Dream se réserve le droit de modifier cette politique à tout moment. La version
+            publiée sur le site est la version en vigueur.
+          </p>
         </div>
 
         <div className="space-y-2">
