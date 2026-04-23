@@ -71,25 +71,29 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
     return { sent: false as const, reason: "smtp_not_configured" as const };
   }
 
-  await mail.transporter.sendMail({
-    from: mail.from,
-    to,
-    subject: "Nebula Dream - Reinitialisation du mot de passe",
-    text: `Pour reinitialiser ton mot de passe, ouvre ce lien:\n${resetUrl}\n\nSi tu n'es pas a l'origine de cette demande, ignore cet email.`,
-    html: renderEmailShell(
-      "Reinitialisation du mot de passe",
-      "Nous avons recu une demande de reinitialisation pour ton compte.",
-      `
-        <p style="margin:0 0 10px;">Clique sur ce bouton pour choisir un nouveau mot de passe :</p>
-        <p style="margin:0 0 14px;">
-          <a href="${resetUrl}" style="display:inline-block;background:#89e8ff;color:#042033;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:700;">
-            Reinitialiser mon mot de passe
-          </a>
-        </p>
-        <p style="margin:0;color:#c7d7ee;font-size:13px;">Si tu n'es pas a l'origine de cette demande, ignore cet email.</p>
-      `,
-    ),
-  });
+  try {
+    await mail.transporter.sendMail({
+      from: mail.from,
+      to,
+      subject: "Nebula Dream - Reinitialisation du mot de passe",
+      text: `Pour reinitialiser ton mot de passe, ouvre ce lien:\n${resetUrl}\n\nSi tu n'es pas a l'origine de cette demande, ignore cet email.`,
+      html: renderEmailShell(
+        "Reinitialisation du mot de passe",
+        "Nous avons recu une demande de reinitialisation pour ton compte.",
+        `
+          <p style="margin:0 0 10px;">Clique sur ce bouton pour choisir un nouveau mot de passe :</p>
+          <p style="margin:0 0 14px;">
+            <a href="${resetUrl}" style="display:inline-block;background:#89e8ff;color:#042033;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:700;">
+              Reinitialiser mon mot de passe
+            </a>
+          </p>
+          <p style="margin:0;color:#c7d7ee;font-size:13px;">Si tu n'es pas a l'origine de cette demande, ignore cet email.</p>
+        `,
+      ),
+    });
+  } catch {
+    return { sent: false as const, reason: "smtp_send_failed" as const };
+  }
 
   return { sent: true as const };
 }

@@ -54,12 +54,21 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
+    if (message.includes("SMTP")) {
+      return NextResponse.json(
+        { error: "Service email indisponible temporairement. Verifie la configuration SMTP." },
+        { status: 503 },
+      );
+    }
     if (message.includes("APP_URL")) {
       return NextResponse.json(
         { error: "Service email indisponible: APP_URL non configure." },
         { status: 500 },
       );
     }
-    return NextResponse.json({ error: "Donnees invalides." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Service email indisponible temporairement. Merci de reessayer." },
+      { status: 503 },
+    );
   }
 }
