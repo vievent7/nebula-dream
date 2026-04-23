@@ -97,7 +97,9 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
                   type="button"
                   disabled={isOwned}
                   onClick={() => toggleTrackInCart(track.slug)}
-                  className="mt-1.5 w-full rounded-lg bg-cyan-300 px-2 py-1.5 text-[11px] font-semibold text-[#04101c] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-zinc-700 disabled:text-zinc-400 md:mt-2 md:px-3 md:py-2 md:text-xs"
+                  className={`mt-1.5 w-full rounded-lg px-2 py-1.5 text-[11px] font-semibold text-[#04101c] transition hover:scale-[1.02] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-zinc-700 disabled:text-zinc-400 md:mt-2 md:px-3 md:py-2 md:text-xs ${
+                    inCart ? "bg-yellow-300" : "bg-cyan-300"
+                  }`}
                 >
                   {isOwned ? "Possedee" : inCart ? "Retirer" : "Ajouter"}
                 </button>

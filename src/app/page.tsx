@@ -79,7 +79,7 @@ export default async function HomePage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-[#040912]/70" />
-          <p className="hero-banner-copy absolute bottom-1 left-1/2 w-[90%] -translate-x-1/2 text-center md:bottom-6">
+          <p className="hero-banner-copy absolute bottom-0 left-1/2 w-[90%] -translate-x-1/2 text-center md:bottom-6">
             Respire. Ralentis. Laisse la nuit, la nature et les textures cosmiques guider ton
             calme.
           </p>
