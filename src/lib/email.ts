@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+﻿import nodemailer from "nodemailer";
 import { getPublicAppUrl } from "@/lib/public-url";
 
 function getSmtpConfig() {
@@ -199,40 +199,47 @@ export async function sendPurchaseConfirmationEmail(input: PurchaseConfirmationI
     .map(
       (item) => `
       <tr>
-        <td style="padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.12);">${item.title}</td>
-        <td style="padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.12);text-align:right;">${formatMoney(item.unitPriceCents, input.currency)}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.14);color:#f2f7ff;">${item.title}</td>
+        <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.14);text-align:right;color:#f2f7ff;">${formatMoney(item.unitPriceCents, input.currency)}</td>
       </tr>`,
     )
     .join("");
 
   const purchasedAt = input.purchasedAt.toLocaleString("fr-CA");
   const total = formatMoney(input.totalCents, input.currency);
+  const trackCount = input.items.length;
 
   await mail.transporter.sendMail({
     from: mail.from,
     to: input.to,
-    subject: "Nebula Dream - Confirmation de commande",
+    subject: "Nebula Dream - Acces a tes musiques",
     text: `Merci pour ton achat sur Nebula Dream.\nCommande: ${input.orderId}\nDate: ${purchasedAt}\nTotal: ${total}\n\nTes tracks sont disponibles dans ton compte.`,
     html: renderEmailShell(
-      "Confirmation de commande",
-      "Merci pour ton achat sur Nebula Dream.",
+      "Acces a tes musiques",
+      "Merci pour ta confiance. Nous sommes heureux de t'accueillir dans l'univers Nebula Dream.",
       `
-        <p style="margin:0 0 2px;"><strong>Commande:</strong> ${input.orderId}</p>
-        <p style="margin:0 0 12px;"><strong>Date:</strong> ${purchasedAt}</p>
-        <table style="width:100%;border-collapse:collapse;margin-bottom:10px;background:rgba(255,255,255,0.03);">
+        <p style="margin:0 0 14px;color:#edf3ff;line-height:1.55;">
+          Merci pour ton achat. Voici les tracks que tu viens d'obtenir :
+        </p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.14);border-radius:12px;overflow:hidden;">
           <thead>
             <tr>
-              <th style="text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.2);">Track</th>
-              <th style="text-align:right;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.2);">Prix</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.2);color:#d8e8ff;">Track</th>
+              <th style="text-align:right;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.2);color:#d8e8ff;">Prix</th>
             </tr>
           </thead>
           <tbody>
             ${rows}
           </tbody>
         </table>
-        <p style="margin:0 0 12px;font-size:18px;"><strong>Total: ${total}</strong></p>
-        <a href="${appUrl}/compte" style="display:inline-block;background:#89e8ff;color:#042033;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:700;">
-          Voir mes achats
+        <div style="margin:0 0 16px;padding:12px;border:1px solid rgba(255,255,255,0.16);border-radius:12px;background:rgba(7,17,30,0.68);">
+          <p style="margin:0 0 6px;color:#edf3ff;"><strong>Commande :</strong> ${input.orderId}</p>
+          <p style="margin:0 0 6px;color:#edf3ff;"><strong>Date :</strong> ${purchasedAt}</p>
+          <p style="margin:0 0 6px;color:#edf3ff;"><strong>Tracks :</strong> ${trackCount}</p>
+          <p style="margin:0;color:#edf3ff;font-size:18px;"><strong>Total paye : ${total}</strong></p>
+        </div>
+        <a href="${appUrl}/compte" style="display:inline-block;background:#9de9ff;color:#062238;text-decoration:none;padding:12px 16px;border-radius:10px;font-weight:700;">
+          Ouvrir mon espace de telechargement
         </a>
       `,
     ),
@@ -251,7 +258,7 @@ export async function sendProductAccessEmail(input: ProductAccessInput) {
   const list = input.items
     .map(
       (item) => `
-        <li style="margin:0 0 8px;">
+        <li style="margin:0 0 10px;color:#edf3ff;">
           <strong>${item.title}</strong>
         </li>
       `,
@@ -265,13 +272,13 @@ export async function sendProductAccessEmail(input: ProductAccessInput) {
     text: `Tes musiques sont disponibles.\nCommande: ${input.orderId}\nAcces: ${appUrl}/compte`,
     html: renderEmailShell(
       "Acces a tes musiques",
-      "Tes tracks sont maintenant disponibles au telechargement.",
+      "Merci pour ta confiance. Tes tracks sont maintenant disponibles au telechargement.",
       `
-        <p style="margin:0 0 10px;">Commande: <strong>${input.orderId}</strong></p>
-        <p style="margin:0 0 10px;">Tracks disponibles :</p>
-        <ul style="margin:0;padding-left:18px;">${list}</ul>
+        <p style="margin:0 0 10px;color:#edf3ff;"><strong>Commande :</strong> ${input.orderId}</p>
+        <p style="margin:0 0 10px;color:#edf3ff;">Voici les tracks que tu viens d'obtenir :</p>
+        <ul style="margin:0 0 12px;padding-left:18px;">${list}</ul>
         <p style="margin:12px 0 0;">
-          <a href="${appUrl}/compte" style="display:inline-block;background:#89e8ff;color:#042033;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:700;">
+          <a href="${appUrl}/compte" style="display:inline-block;background:#9de9ff;color:#062238;text-decoration:none;padding:12px 16px;border-radius:10px;font-weight:700;">
             Ouvrir mon espace de telechargement
           </a>
         </p>
