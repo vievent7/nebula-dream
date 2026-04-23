@@ -116,10 +116,10 @@ export function AudioPlayer({ src, label, maxSeconds }: AudioPlayerProps) {
   };
 
   return (
-    <div className="rounded-xl border border-cyan-100/20 bg-[#0a1628]/70 p-2.5 backdrop-blur-md">
+    <div className="w-full rounded-xl border border-cyan-100/20 bg-[#0a1628]/70 p-2.5 backdrop-blur-md">
       <audio ref={audioRef} src={src} preload="none" />
       <p className="mb-1.5 text-[10px] uppercase tracking-[0.2em] text-cyan-200/80">{label}</p>
-      <div className="flex items-center gap-2.5">
+      <div className="flex min-w-0 items-center gap-2.5">
         <button
           type="button"
           onClick={toggle}
@@ -127,7 +127,7 @@ export function AudioPlayer({ src, label, maxSeconds }: AudioPlayerProps) {
         >
           {isPlaying ? "II" : ">"}
         </button>
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <input
             type="range"
             min={0}

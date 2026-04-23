@@ -103,7 +103,7 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
                 </button>
               </div>
 
-              <div className="flex flex-1 flex-col justify-center text-center">
+              <div className="flex min-w-0 flex-1 flex-col justify-center text-center">
                 <h3 className="text-sm font-semibold text-white md:text-xl">{track.title}</h3>
                 <p className="mt-0.5 text-[10px] uppercase tracking-[0.15em] text-cyan-200/80 md:mt-1 md:text-xs md:tracking-[0.2em]">
                   Duree: {track.duration} | Ambiance: {track.mood}
