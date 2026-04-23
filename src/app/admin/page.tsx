@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AdminUsersTable } from "@/components/admin-users-table";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -16,6 +17,25 @@ export default async function AdminPage() {
     },
     orderBy: { createdAt: "desc" },
   });
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      createdAt: true,
+      _count: { select: { orders: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+  const userRows = users.map((item) => ({
+    id: item.id,
+    name: item.name,
+    email: item.email,
+    role: item.role,
+    createdAt: item.createdAt.toISOString(),
+    orderCount: item._count.orders,
+  }));
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8">
@@ -62,6 +82,8 @@ export default async function AdminPage() {
           </tbody>
         </table>
       </div>
+
+      <AdminUsersTable users={userRows} currentAdminId={user.id} />
     </main>
   );
 }
