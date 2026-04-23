@@ -143,11 +143,12 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
         <h2 className="text-xl font-semibold text-white md:text-2xl">Panier</h2>
         <p className="mt-1.5 text-xs text-zinc-300 md:mt-2 md:text-sm">{selectedTracks.length} track(s)</p>
         <div className="mt-3 rounded-xl border border-white/15 bg-black/30 p-3 md:mt-4 md:p-4">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Total</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Sous-total (HT)</p>
           <p className="mt-1 text-3xl font-bold text-cyan-100 md:text-4xl">{formatCad(pricing.totalCents)}</p>
           <p className="mt-1.5 text-[11px] text-zinc-400 md:mt-2 md:text-xs">
             Packs: {pricing.packs10}x10, {pricing.packs5}x5, {pricing.singles}x1
           </p>
+          <p className="mt-2 text-[11px] text-cyan-100/85 md:text-xs">Taxes calculees a la caisse.</p>
           <div className="mt-2.5 space-y-0.5 text-[11px] text-zinc-300 md:mt-3 md:space-y-1 md:text-xs">
             <p>1 track = {formatCad(199)}</p>
             <p>5 tracks = {formatCad(799)}</p>

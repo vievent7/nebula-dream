@@ -37,6 +37,9 @@ export async function POST(request: Request) {
       mode: "payment",
       success_url: `${appUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${appUrl}/`,
+      customer_email: user.email,
+      billing_address_collection: "required",
+      automatic_tax: { enabled: true },
       line_items: [
         {
           quantity: 1,
