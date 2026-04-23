@@ -19,6 +19,7 @@ enum UserRole {
 
 model User {
   id           String   @id @default(cuid())
+  name         String?
   email        String   @unique
   passwordHash String
   role         UserRole @default(USER)
@@ -67,6 +68,7 @@ model PasswordResetToken {
 
 model SignupVerificationToken {
   id           String   @id @default(cuid())
+  displayName  String
   email        String
   passwordHash String
   tokenHash    String   @unique

@@ -10,6 +10,7 @@ type AuthFormProps = {
 
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -35,7 +36,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       headers: { "Content-Type": "application/json" },
       body:
         mode === "signup"
-          ? JSON.stringify({ email, password, passwordConfirm })
+          ? JSON.stringify({ name, email, password, passwordConfirm })
           : JSON.stringify({ email, password }),
     });
 
@@ -52,6 +53,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         data.message ??
           "Inscription en attente: verifie ton email puis clique sur le lien de confirmation.",
       );
+      setName("");
       setPassword("");
       setPasswordConfirm("");
       return;
@@ -79,6 +81,19 @@ export function AuthForm({ mode }: AuthFormProps) {
           className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-white"
         />
       </label>
+      {mode === "signup" && (
+        <label className="block text-sm text-zinc-200">
+          Nom
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            type="text"
+            required
+            minLength={2}
+            className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-white"
+          />
+        </label>
+      )}
       <label className="block text-sm text-zinc-200">
         Mot de passe
         <input

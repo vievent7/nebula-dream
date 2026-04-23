@@ -37,7 +37,7 @@ export default async function HomePage() {
                 href="/compte"
                 className="rounded-lg border border-white/20 px-2.5 py-1.5 text-xs hover:bg-white/10 md:px-3 md:py-2 md:text-sm"
               >
-                Mon compte
+                Mon compte ({user.name ?? user.email.split("@")[0]})
               </Link>
               {user.role === "ADMIN" && (
                 <Link

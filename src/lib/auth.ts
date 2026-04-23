@@ -98,7 +98,7 @@ export async function getCurrentUser() {
 
   const user = await prisma.user.findUnique({
     where: { id: payload.sub },
-    select: { id: true, email: true, role: true, createdAt: true },
+    select: { id: true, name: true, email: true, role: true, createdAt: true },
   });
 
   if (!user) return null;
@@ -106,7 +106,7 @@ export async function getCurrentUser() {
     const promoted = await prisma.user.update({
       where: { id: user.id },
       data: { role: UserRole.ADMIN },
-      select: { id: true, email: true, role: true, createdAt: true },
+      select: { id: true, name: true, email: true, role: true, createdAt: true },
     });
     return promoted;
   }

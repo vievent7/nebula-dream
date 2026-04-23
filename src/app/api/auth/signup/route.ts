@@ -10,6 +10,7 @@ import {
 } from "@/lib/signup-verification";
 
 const schema = z.object({
+  name: z.string().trim().min(2).max(80),
   email: z.string().email().toLowerCase(),
   password: z.string().min(8).max(128),
   passwordConfirm: z.string().min(8).max(128),
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
 
     await prisma.signupVerificationToken.create({
       data: {
+        displayName: data.name,
         email: data.email,
         passwordHash,
         tokenHash,

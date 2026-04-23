@@ -19,6 +19,7 @@ export async function POST(request: Request) {
       where: { tokenHash },
       select: {
         id: true,
+        displayName: true,
         email: true,
         passwordHash: true,
         expiresAt: true,
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
         existing ??
         (await tx.user.create({
           data: {
+            name: pending.displayName,
             email: pending.email,
             passwordHash: pending.passwordHash,
             role: isAdminEmail(pending.email) ? UserRole.ADMIN : UserRole.USER,
