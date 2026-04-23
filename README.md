@@ -1,4 +1,4 @@
-# Nebula Dream
+﻿# Nebula Dream
 
 Site de vente de musiques relaxantes, simple et maintenable.
 
@@ -46,8 +46,8 @@ npm run dev
 ```env
 DATABASE_URL="file:./dev.db"
 AUTH_SECRET="replace-with-long-random-secret"
-APP_URL="https://www.skystores.org"
-NEXT_PUBLIC_APP_URL="https://www.skystores.org"
+APP_URL="https://nebula-dream.onrender.com"
+NEXT_PUBLIC_APP_URL="https://nebula-dream.onrender.com"
 STRIPE_SECRET_KEY="sk_test_..."
 STRIPE_WEBHOOK_SECRET="whsec_..."
 SMTP_HOST="smtp.sendgrid.net"
@@ -55,7 +55,7 @@ SMTP_PORT="587"
 SMTP_SECURE="false"
 SMTP_USER="apikey"
 SMTP_PASS="SG_xxx"
-SMTP_FROM="Nebula Dream <noreply@skystores.org>"
+SMTP_FROM="Nebula Dream <noreply@nebula-dream.onrender.com>"
 SMTP_TLS_REJECT_UNAUTHORIZED="true"
 ```
 
@@ -77,11 +77,11 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 
 ## Configuration email (SendGrid)
 
-1. Creer un expéditeur verifie sur SendGrid (SPF/DKIM valides).
+1. Creer un expÃ©diteur verifie sur SendGrid (SPF/DKIM valides).
 2. Copier la cle API SendGrid dans `SMTP_PASS`.
 3. Garder `SMTP_USER=apikey` et `SMTP_HOST=smtp.sendgrid.net`.
-4. Definir `SMTP_FROM` avec le nom expéditeur exact:
-   - `Nebula Dream <noreply@skystores.org>`
+4. Definir `SMTP_FROM` avec le nom expÃ©diteur exact:
+   - `Nebula Dream <noreply@nebula-dream.onrender.com>`
 5. Definir `APP_URL` sur votre domaine public du site.
 
 ## Ajouter des tracks
@@ -149,25 +149,25 @@ npm run start
 
 Service cible: `nebula-dream` (remplacement complet du service Sky Store).
 
-Commandes utilisées:
+Commandes utilisÃ©es:
 
 - Build: `npm ci && npm run build`
 - Start: `npx prisma migrate deploy && npm run start`
 - Health check: `/api/health`
 
-Fichier prêt pour Render Blueprint:
+Fichier prÃªt pour Render Blueprint:
 
 - `render.yaml`
 
-Variables clés à poser côté Render:
+Variables clÃ©s Ã  poser cÃ´tÃ© Render:
 
-- `APP_URL=https://www.skystores.org`
-- `NEXT_PUBLIC_APP_URL=https://www.skystores.org`
-- `SMTP_FROM=Nebula Dream <noreply@skystores.org>`
+- `APP_URL=https://nebula-dream.onrender.com`
+- `NEXT_PUBLIC_APP_URL=https://nebula-dream.onrender.com`
+- `SMTP_FROM=Nebula Dream <noreply@nebula-dream.onrender.com>`
 - `STRIPE_*`, `AUTH_SECRET`, `SMTP_*` (secrets)
 
-Après déploiement:
+AprÃ¨s dÃ©ploiement:
 
-1. associer `www.skystores.org` au service Nebula Dream
-2. retirer le domaine du service Sky Store abandonné
-3. vérifier `/`, `/login`, `/api/health`, achat Stripe et emails
+1. associer `nebula-dream.onrender.com` au service Nebula Dream
+2. retirer le domaine du service Sky Store abandonnÃ©
+3. vÃ©rifier `/`, `/login`, `/api/health`, achat Stripe et emails

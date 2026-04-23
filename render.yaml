@@ -1,4 +1,4 @@
-services:
+﻿services:
   - type: web
     name: nebula-dream
     runtime: node
@@ -13,9 +13,9 @@ services:
       - key: DATABASE_URL
         value: file:/var/data/dev.db
       - key: APP_URL
-        value: https://www.skystores.org
+        value: https://nebula-dream.onrender.com
       - key: NEXT_PUBLIC_APP_URL
-        value: https://www.skystores.org
+        value: https://nebula-dream.onrender.com
       - key: SHOW_DEBUG_RESET_URL
         value: false
       - key: SMTP_TLS_REJECT_UNAUTHORIZED
