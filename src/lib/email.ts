@@ -155,6 +155,39 @@ export async function sendAccountCreatedEmail(to: string) {
   return { sent: true as const };
 }
 
+export async function sendSignupVerificationEmail(to: string, verifyUrl: string) {
+  const mail = getTransporter();
+  if (!mail) {
+    return { sent: false as const, reason: "smtp_not_configured" as const };
+  }
+
+  try {
+    await mail.transporter.sendMail({
+      from: mail.from,
+      to,
+      subject: "Nebula Dream - Verifie ton email",
+      text: `Pour activer ton inscription, ouvre ce lien:\n${verifyUrl}\n\nSi tu n'es pas a l'origine de cette demande, ignore cet email.`,
+      html: renderEmailShell(
+        "Confirme ton inscription",
+        "Clique pour verifier ton adresse email avant d'activer ton compte.",
+        `
+          <p style="margin:0 0 10px;">Validation de ton email :</p>
+          <p style="margin:0 0 14px;">
+            <a href="${verifyUrl}" style="display:inline-block;background:#89e8ff;color:#042033;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:700;">
+              Verifier mon email
+            </a>
+          </p>
+          <p style="margin:0;color:#c7d7ee;font-size:13px;">Ce lien expire dans 1 heure.</p>
+        `,
+      ),
+    });
+  } catch {
+    return { sent: false as const, reason: "smtp_send_failed" as const };
+  }
+
+  return { sent: true as const };
+}
+
 export async function sendPurchaseConfirmationEmail(input: PurchaseConfirmationInput) {
   const mail = getTransporter();
   if (!mail) {

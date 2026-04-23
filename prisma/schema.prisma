@@ -64,3 +64,15 @@ model PasswordResetToken {
 
   @@index([userId, expiresAt])
 }
+
+model SignupVerificationToken {
+  id           String   @id @default(cuid())
+  email        String
+  passwordHash String
+  tokenHash    String   @unique
+  expiresAt    DateTime
+  usedAt       DateTime?
+  createdAt    DateTime @default(now())
+
+  @@index([email, expiresAt])
+}

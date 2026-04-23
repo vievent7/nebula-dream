@@ -14,6 +14,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const endpoint = mode === "login" ? "/api/auth/login" : "/api/auth/signup";
@@ -21,6 +22,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
+    setMessage("");
 
     if (mode === "signup" && password !== passwordConfirm) {
       setError("La confirmation du mot de passe ne correspond pas.");
@@ -41,6 +43,17 @@ export function AuthForm({ mode }: AuthFormProps) {
     if (!res.ok) {
       const data = (await res.json()) as { error?: string };
       setError(data.error ?? "Erreur.");
+      return;
+    }
+
+    if (mode === "signup") {
+      const data = (await res.json()) as { message?: string };
+      setMessage(
+        data.message ??
+          "Inscription en attente: verifie ton email puis clique sur le lien de confirmation.",
+      );
+      setPassword("");
+      setPasswordConfirm("");
       return;
     }
 
@@ -91,6 +104,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         </label>
       )}
       {error && <p className="text-sm text-rose-300">{error}</p>}
+      {message && <p className="text-sm text-cyan-200">{message}</p>}
       <button
         type="submit"
         disabled={loading}
