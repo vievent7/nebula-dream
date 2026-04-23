@@ -113,8 +113,8 @@ export default async function HomePage() {
                 style={{
                   width: "120px",
                   height: "120px",
-                  left: index === 0 ? "-10%" : "74%",
-                  top: index === 0 ? "58%" : "60%",
+                  left: index === 0 ? "-3%" : "67%",
+                  top: index === 0 ? "52%" : "54%",
                 }}
               >
                 <Image src={card.src} alt="" fill className="object-cover" sizes="120px" />
@@ -122,7 +122,7 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <div className="relative z-10 flex min-h-[30vh] flex-col items-center justify-center md:min-h-[46vh]">
+          <div className="relative z-10 flex min-h-[30vh] flex-col items-center justify-start pt-3 md:min-h-[46vh] md:justify-center md:pt-0">
             <h2 className="hero-copy max-w-2xl text-center text-xl text-white md:text-5xl">
               Entrez dans un univers calme et apaisant
             </h2>
