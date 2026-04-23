@@ -58,7 +58,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
+    console.error("[checkout] session creation failed", error);
     const message = error instanceof Error ? error.message : "";
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: "Requete checkout invalide." }, { status: 400 });
+    }
     if (message.includes("STRIPE_SECRET_KEY")) {
       return NextResponse.json(
         { error: "Paiement indisponible: STRIPE_SECRET_KEY manquant." },
@@ -72,6 +76,10 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ error: "Requete invalide." }, { status: 400 });
+    if (message) {
+      return NextResponse.json({ error: `Paiement Stripe: ${message}` }, { status: 500 });
+    }
+
+    return NextResponse.json({ error: "Paiement indisponible (erreur interne)." }, { status: 500 });
   }
 }
