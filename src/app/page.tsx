@@ -85,7 +85,7 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="relative min-h-[22vh] px-3 py-4 text-center md:min-h-[46vh] md:px-6 md:py-8">
+        <div className="relative min-h-[30vh] px-3 pb-8 pt-4 text-center md:min-h-[46vh] md:px-6 md:py-8">
           <div className="pointer-events-none absolute inset-0 hidden md:block">
             {heroCards.map((card) => {
               const positionStyle = desktopHeroCardPositions[card.slot];
@@ -111,18 +111,18 @@ export default async function HomePage() {
                 key={`mobile-${card.src}-${index}`}
                 className="hero-card absolute overflow-hidden rounded-full border border-cyan-100/35 opacity-40"
                 style={{
-                  width: "108px",
-                  height: "108px",
+                  width: "120px",
+                  height: "120px",
                   left: index === 0 ? "-10%" : "74%",
-                  top: index === 0 ? "64%" : "66%",
+                  top: index === 0 ? "58%" : "60%",
                 }}
               >
-                <Image src={card.src} alt="" fill className="object-cover" sizes="108px" />
+                <Image src={card.src} alt="" fill className="object-cover" sizes="120px" />
               </div>
             ))}
           </div>
 
-          <div className="relative z-10 flex min-h-[22vh] flex-col items-center justify-center md:min-h-[46vh]">
+          <div className="relative z-10 flex min-h-[30vh] flex-col items-center justify-center md:min-h-[46vh]">
             <h2 className="hero-copy max-w-2xl text-center text-xl text-white md:text-5xl">
               Entrez dans un univers calme et apaisant
             </h2>
