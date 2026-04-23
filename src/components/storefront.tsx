@@ -17,6 +17,7 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
   const router = useRouter();
   const [cart, setCart] = useState<string[]>([]);
   const [loadingCheckout, setLoadingCheckout] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [showAllTracks, setShowAllTracks] = useState(false);
   const ownedSet = useMemo(() => new Set(ownedSlugs), [ownedSlugs]);
   const cartSet = useMemo(() => new Set(cart), [cart]);
@@ -40,19 +41,31 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
     }
     if (selectedTracks.length === 0) return;
 
+    setCheckoutError(null);
     setLoadingCheckout(true);
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ trackSlugs: selectedTracks.map((track) => track.slug) }),
-    });
-    setLoadingCheckout(false);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ trackSlugs: selectedTracks.map((track) => track.slug) }),
+      });
 
-    if (!res.ok) return;
+      const data = (await res.json()) as { error?: string; url?: string };
+      if (!res.ok) {
+        setCheckoutError(data.error ?? "Le paiement est indisponible pour le moment.");
+        return;
+      }
 
-    const data = (await res.json()) as { url?: string };
-    if (data.url) {
-      window.location.href = data.url;
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+
+      setCheckoutError("Lien de paiement introuvable.");
+    } catch {
+      setCheckoutError("Impossible de contacter le serveur de paiement.");
+    } finally {
+      setLoadingCheckout(false);
     }
   };
 
@@ -156,6 +169,7 @@ export function Storefront({ tracks, ownedSlugs, isLoggedIn }: StorefrontProps) 
         >
           {loadingCheckout ? "Redirection..." : "Payer"}
         </button>
+        {checkoutError && <p className="mt-2 text-xs text-rose-200">{checkoutError}</p>}
       </aside>
     </section>
   );
