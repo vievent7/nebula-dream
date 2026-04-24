@@ -104,7 +104,7 @@ export async function GET(
     return new NextResponse(bytes, {
       headers: {
         "Content-Type": getImageMimeType(psalm.imageFilePath),
-        "Cache-Control": "public, max-age=86400",
+        "Cache-Control": "no-store",
       },
     });
   }
@@ -114,7 +114,7 @@ export async function GET(
     return new NextResponse(embedded.bytes as unknown as BodyInit, {
       headers: {
         "Content-Type": embedded.mimeType,
-        "Cache-Control": "public, max-age=86400",
+        "Cache-Control": "no-store",
       },
     });
   }
