@@ -43,6 +43,7 @@ export default async function PsaumesGratuitsPage() {
                   src={psalm.thumbnailUrl}
                   alt={`Miniature de ${psalm.title}`}
                   fill
+                  unoptimized
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
