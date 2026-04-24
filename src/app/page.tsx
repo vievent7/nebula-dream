@@ -136,6 +136,15 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <div className="mb-4 text-center md:mb-6">
+        <Link
+          href="/psaumes-gratuits"
+          className="inline-flex rounded-xl border border-emerald-200/40 bg-emerald-200/15 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:scale-[1.02] hover:bg-emerald-200/25 md:px-5 md:py-2.5 md:text-base"
+        >
+          Psaumes en chanson – Gratuit pour tous (sans inscription)
+        </Link>
+      </div>
+
       <div
         id="tracks"
         className="nebula-catalog tracks-hidden scroll-mt-20 rounded-2xl border border-white/10 p-3 md:rounded-3xl md:p-4"
