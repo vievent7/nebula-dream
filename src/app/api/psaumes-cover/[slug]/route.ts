@@ -99,21 +99,21 @@ export async function GET(
     return NextResponse.json({ error: "Psaume introuvable." }, { status: 404 });
   }
 
-  const embedded = await extractEmbeddedCover(psalm.audioFilePath);
-  if (embedded) {
-    return new NextResponse(embedded.bytes as unknown as BodyInit, {
-      headers: {
-        "Content-Type": embedded.mimeType,
-        "Cache-Control": "public, max-age=86400",
-      },
-    });
-  }
-
   if (psalm.imageFilePath) {
     const bytes = await fs.readFile(psalm.imageFilePath);
     return new NextResponse(bytes, {
       headers: {
         "Content-Type": getImageMimeType(psalm.imageFilePath),
+        "Cache-Control": "public, max-age=86400",
+      },
+    });
+  }
+
+  const embedded = await extractEmbeddedCover(psalm.audioFilePath);
+  if (embedded) {
+    return new NextResponse(embedded.bytes as unknown as BodyInit, {
+      headers: {
+        "Content-Type": embedded.mimeType,
         "Cache-Control": "public, max-age=86400",
       },
     });
