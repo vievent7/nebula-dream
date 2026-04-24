@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const AUDIO_EXTENSIONS = new Set([".mp3", ".wav", ".flac", ".m4a", ".ogg", ".aac"]);
-const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif"]);
+const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".svg"]);
 
 export type FreePsalm = {
   id: string;
@@ -73,4 +73,3 @@ export async function getFreePsalms(): Promise<FreePsalm[]> {
 
   return psalms.sort((a, b) => a.title.localeCompare(b.title, "fr"));
 }
-

@@ -1,0 +1,14 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='1200' viewBox='0 0 1200 1200'>
+  <defs>
+    <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#0f1b2f'/>
+      <stop offset='50%' stop-color='#132847'/>
+      <stop offset='100%' stop-color='#091224'/>
+    </linearGradient>
+  </defs>
+  <rect width='1200' height='1200' fill='url(#bg)'/>
+  <circle cx='210' cy='170' r='220' fill='#93c5fd' fill-opacity='0.16'/>
+  <circle cx='980' cy='1020' r='260' fill='#67e8f9' fill-opacity='0.14'/>
+  <text x='600' y='560' text-anchor='middle' fill='#e2e8f0' font-size='64' font-family='Segoe UI, Arial, sans-serif' letter-spacing='1'>PSAUME</text>
+  <text x='600' y='645' text-anchor='middle' fill='#a5f3fc' font-size='44' font-family='Segoe UI, Arial, sans-serif'>Refuge À 432</text>
+</svg>
