@@ -9,7 +9,6 @@ export const metadata = {
 
 export default async function PsaumesGratuitsPage() {
   const psalms = await getFreePsalms();
-  const fallbackThumb = "/assets/hero-cards/windo3.png";
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-7xl px-3 py-6 md:px-8 md:py-10">
@@ -36,12 +35,12 @@ export default async function PsaumesGratuitsPage() {
         <section className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
           {psalms.map((psalm) => (
             <article
-              key={psalm.id}
+              key={psalm.slug}
               className="track-card flex h-full flex-col rounded-2xl border border-white/20 bg-[#171725]/68 p-3 backdrop-blur-md"
             >
               <div className="relative mb-3 aspect-square overflow-hidden rounded-xl border border-white/15">
                 <Image
-                  src={psalm.imageUrl ?? fallbackThumb}
+                  src={psalm.thumbnailUrl}
                   alt={`Miniature de ${psalm.title}`}
                   fill
                   className="object-cover"

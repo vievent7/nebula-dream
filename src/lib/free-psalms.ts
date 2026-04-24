@@ -1,16 +1,31 @@
-import fs from "node:fs/promises";
+﻿import fs from "node:fs/promises";
 import path from "node:path";
 
 const AUDIO_EXTENSIONS = new Set([".mp3", ".wav", ".flac", ".m4a", ".ogg", ".aac"]);
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".avif", ".svg"]);
 
 export type FreePsalm = {
-  id: string;
+  slug: string;
   title: string;
   fileName: string;
   audioUrl: string;
-  imageUrl: string | null;
+  thumbnailUrl: string;
 };
+
+type FreePsalmAsset = FreePsalm & {
+  audioFilePath: string;
+  imageFilePath: string | null;
+};
+
+function slugify(value: string): string {
+  return value
+    .normalize("NFKD")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-");
+}
 
 function toDisplayTitle(stem: string): string {
   const normalized = stem
@@ -27,7 +42,7 @@ function toDisplayTitle(stem: string): string {
   return normalized.replace(/\b\p{L}/gu, (letter) => letter.toUpperCase());
 }
 
-export async function getFreePsalms(): Promise<FreePsalm[]> {
+async function loadFreePsalmAssets(): Promise<FreePsalmAsset[]> {
   const root = path.join(process.cwd(), "public", "psaumes");
   let entries: import("node:fs").Dirent[] = [];
 
@@ -51,7 +66,7 @@ export async function getFreePsalms(): Promise<FreePsalm[]> {
     }
   }
 
-  const psalms: FreePsalm[] = [];
+  const psalms: FreePsalmAsset[] = [];
   for (const fileName of files) {
     const extension = path.extname(fileName).toLowerCase();
     if (!AUDIO_EXTENSIONS.has(extension)) {
@@ -61,15 +76,40 @@ export async function getFreePsalms(): Promise<FreePsalm[]> {
     const stem = path.basename(fileName, extension);
     const stemKey = stem.toLowerCase();
     const imageFileName = imageByStem.get(stemKey) ?? null;
+    const baseSlug = slugify(stem) || "psaume";
+    let slug = baseSlug;
+    let index = 2;
+    while (psalms.some((item) => item.slug === slug)) {
+      slug = `${baseSlug}-${index}`;
+      index += 1;
+    }
 
     psalms.push({
-      id: stemKey,
+      slug,
       title: toDisplayTitle(stem),
       fileName,
       audioUrl: `/psaumes/${encodeURIComponent(fileName)}`,
-      imageUrl: imageFileName ? `/psaumes/${encodeURIComponent(imageFileName)}` : null,
+      thumbnailUrl: `/api/psaumes-cover/${slug}`,
+      audioFilePath: path.join(root, fileName),
+      imageFilePath: imageFileName ? path.join(root, imageFileName) : null,
     });
   }
 
   return psalms.sort((a, b) => a.title.localeCompare(b.title, "fr"));
+}
+
+export async function getFreePsalms(): Promise<FreePsalm[]> {
+  const assets = await loadFreePsalmAssets();
+  return assets.map((item) => ({
+    slug: item.slug,
+    title: item.title,
+    fileName: item.fileName,
+    audioUrl: item.audioUrl,
+    thumbnailUrl: item.thumbnailUrl,
+  }));
+}
+
+export async function getFreePsalmAssetBySlug(slug: string): Promise<FreePsalmAsset | null> {
+  const assets = await loadFreePsalmAssets();
+  return assets.find((item) => item.slug === slug) ?? null;
 }
