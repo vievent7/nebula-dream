@@ -4,6 +4,8 @@ import { UserRole } from "@/generated/prisma/enums";
 import { applySessionCookie, createSessionCookie, isAdminEmail } from "@/lib/auth";
 import { sendAccountCreatedEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getRequestIp } from "@/lib/request-ip";
 import { hashSignupVerificationToken } from "@/lib/signup-verification";
 
 const schema = z.object({
@@ -11,6 +13,21 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
+  const ip = getRequestIp(request);
+  const { allowed, retryAfterSeconds } = checkRateLimit(`auth:verify-email:${ip}`, {
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+  });
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Trop de tentatives. Reessaie plus tard." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSeconds) },
+      },
+    );
+  }
+
   try {
     const { token } = schema.parse(await request.json());
     const tokenHash = hashSignupVerificationToken(token);

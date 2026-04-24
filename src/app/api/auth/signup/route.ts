@@ -4,6 +4,8 @@ import { hashPassword } from "@/lib/auth";
 import { sendSignupVerificationEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 import { getPublicAppUrl } from "@/lib/public-url";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getRequestIp } from "@/lib/request-ip";
 import {
   generateSignupVerificationToken,
   hashSignupVerificationToken,
@@ -17,6 +19,21 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
+  const ip = getRequestIp(request);
+  const { allowed, retryAfterSeconds } = checkRateLimit(`auth:signup:${ip}`, {
+    windowMs: 10 * 60 * 1000,
+    max: 5,
+  });
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Trop de tentatives. Reessaie plus tard." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSeconds) },
+      },
+    );
+  }
+
   try {
     const data = schema.parse(await request.json());
     if (data.password !== data.passwordConfirm) {

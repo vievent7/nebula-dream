@@ -4,12 +4,15 @@ import { OrdersList } from "@/components/orders-list";
 import { PurchasedTracksList } from "@/components/purchased-tracks-list";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { syncRecentPaidSessionsForUser } from "@/lib/stripe-orders";
 
 export default async function ComptePage() {
   const user = await getCurrentUser();
   if (!user) {
     redirect("/login");
   }
+
+  await syncRecentPaidSessionsForUser(user.id);
 
   const orders = await prisma.order.findMany({
     where: { userId: user.id, status: "paid" },

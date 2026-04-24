@@ -7,6 +7,13 @@ type Params = {
 };
 
 export async function DELETE(_: Request, { params }: Params) {
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json(
+      { error: "Suppression des commandes desactivee en production." },
+      { status: 403 },
+    );
+  }
+
   const user = await requireUser();
   if (!user) {
     return NextResponse.json({ error: "Connexion requise." }, { status: 401 });

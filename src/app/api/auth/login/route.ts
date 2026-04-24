@@ -6,6 +6,8 @@ import {
   verifyPassword,
 } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getRequestIp } from "@/lib/request-ip";
 
 const schema = z.object({
   email: z.string().email().toLowerCase(),
@@ -13,6 +15,21 @@ const schema = z.object({
 });
 
 export async function POST(request: Request) {
+  const ip = getRequestIp(request);
+  const { allowed, retryAfterSeconds } = checkRateLimit(`auth:login:${ip}`, {
+    windowMs: 10 * 60 * 1000,
+    max: 10,
+  });
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Trop de tentatives. Reessaie plus tard." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSeconds) },
+      },
+    );
+  }
+
   try {
     const data = schema.parse(await request.json());
     const user = await prisma.user.findUnique({ where: { email: data.email } });

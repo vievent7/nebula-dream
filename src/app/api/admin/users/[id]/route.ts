@@ -1,12 +1,29 @@
 import { NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getRequestIp } from "@/lib/request-ip";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
 export async function DELETE(_request: Request, context: RouteContext) {
+  const ip = getRequestIp(_request);
+  const { allowed, retryAfterSeconds } = checkRateLimit(`admin:delete-user:${ip}`, {
+    windowMs: 10 * 60 * 1000,
+    max: 20,
+  });
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Trop de tentatives. Reessaie plus tard." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSeconds) },
+      },
+    );
+  }
+
   const admin = await requireUser();
   if (!admin || admin.role !== "ADMIN") {
     return NextResponse.json({ error: "Acces interdit." }, { status: 403 });
