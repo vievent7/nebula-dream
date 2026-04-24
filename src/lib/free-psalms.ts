@@ -27,6 +27,16 @@ function slugify(value: string): string {
     .replace(/-+/g, "-");
 }
 
+function canonicalKey(value: string): string {
+  return value
+    .replace(/\s*\(\d+\)\s*$/g, "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "")
+    .trim();
+}
+
 function toDisplayTitle(stem: string): string {
   const normalized = stem
     .replace(/\s*\(\d+\)\s*$/g, "")
@@ -53,16 +63,22 @@ async function loadFreePsalmAssets(): Promise<FreePsalmAsset[]> {
   }
 
   const files = entries.filter((entry) => entry.isFile()).map((entry) => entry.name);
-  const imageByStem = new Map<string, string>();
+  const imageByExactStem = new Map<string, string>();
+  const imageByCanonicalStem = new Map<string, string>();
 
   for (const fileName of files) {
     const extension = path.extname(fileName).toLowerCase();
     if (!IMAGE_EXTENSIONS.has(extension)) {
       continue;
     }
-    const stem = path.basename(fileName, extension).toLowerCase();
-    if (!imageByStem.has(stem)) {
-      imageByStem.set(stem, fileName);
+    const rawStem = path.basename(fileName, extension);
+    const exactStem = rawStem.toLowerCase();
+    const normalizedStem = canonicalKey(rawStem);
+    if (!imageByExactStem.has(exactStem)) {
+      imageByExactStem.set(exactStem, fileName);
+    }
+    if (normalizedStem && !imageByCanonicalStem.has(normalizedStem)) {
+      imageByCanonicalStem.set(normalizedStem, fileName);
     }
   }
 
@@ -75,7 +91,11 @@ async function loadFreePsalmAssets(): Promise<FreePsalmAsset[]> {
 
     const stem = path.basename(fileName, extension);
     const stemKey = stem.toLowerCase();
-    const imageFileName = imageByStem.get(stemKey) ?? null;
+    const normalizedStemKey = canonicalKey(stem);
+    const imageFileName =
+      imageByExactStem.get(stemKey) ??
+      imageByCanonicalStem.get(normalizedStemKey) ??
+      null;
     const baseSlug = slugify(stem) || "psaume";
     let slug = baseSlug;
     let index = 2;
