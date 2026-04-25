@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AdminUsersTable } from "@/components/admin-users-table";
 import { getCurrentUser } from "@/lib/auth";
+import { formatCad } from "@/lib/pricing";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminPage() {
@@ -66,7 +67,9 @@ export default async function AdminPage() {
                 <td className="px-4 py-3">
                   <ul className="space-y-1">
                     {order.items.map((item) => (
-                      <li key={item.id}>{item.trackTitle}</li>
+                      <li key={item.id}>
+                        {item.trackTitle} ({formatCad(item.unitPriceCents)})
+                      </li>
                     ))}
                   </ul>
                 </td>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type State = "loading" | "success" | "error";
@@ -10,6 +11,7 @@ type VerifyEmailClientProps = {
 };
 
 export function VerifyEmailClient({ token }: VerifyEmailClientProps) {
+  const router = useRouter();
   const [state, setState] = useState<State>(token ? "loading" : "error");
   const [message, setMessage] = useState(
     token ? "Verification de ton email en cours..." : "Lien invalide: token manquant.",
@@ -38,7 +40,14 @@ export function VerifyEmailClient({ token }: VerifyEmailClientProps) {
         }
 
         setState("success");
-        setMessage(data.message ?? "Email verifie avec succes.");
+        setMessage(
+          data.message ??
+            "Inscription confirmee. Redirection vers ton compte en cours...",
+        );
+        setTimeout(() => {
+          router.push("/compte");
+          router.refresh();
+        }, 1800);
       } catch {
         if (!active) return;
         setState("error");
@@ -50,7 +59,7 @@ export function VerifyEmailClient({ token }: VerifyEmailClientProps) {
     return () => {
       active = false;
     };
-  }, [token]);
+  }, [router, token]);
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 py-10">
@@ -60,8 +69,8 @@ export function VerifyEmailClient({ token }: VerifyEmailClientProps) {
 
         {state === "success" && (
           <div className="mt-4">
-            <Link href="/" className="text-cyan-300 underline">
-              Continuer vers l&apos;accueil
+            <Link href="/compte" className="text-cyan-300 underline">
+              Continuer vers mon compte
             </Link>
           </div>
         )}

@@ -34,6 +34,23 @@ export async function POST(request: Request) {
     const data = schema.parse(await request.json());
     const user = await prisma.user.findUnique({ where: { email: data.email } });
     if (!user) {
+      const pendingVerification = await prisma.signupVerificationToken.findFirst({
+        where: {
+          email: data.email,
+          usedAt: null,
+          expiresAt: { gt: new Date() },
+        },
+        select: { id: true },
+      });
+      if (pendingVerification) {
+        return NextResponse.json(
+          {
+            error:
+              "Compte en attente de verification email. Verifie ta boite de reception et tes spams.",
+          },
+          { status: 403 },
+        );
+      }
       return NextResponse.json({ error: "Identifiants invalides." }, { status: 401 });
     }
 

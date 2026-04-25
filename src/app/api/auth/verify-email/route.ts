@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     const sessionToken = await createSessionCookie(user.id, user.email);
     const response = NextResponse.json({
       ok: true,
-      message: "Email verifie. Ton compte est maintenant actif.",
+      message: "Inscription confirmee. Ton compte est maintenant actif.",
     });
     applySessionCookie(response, sessionToken);
 

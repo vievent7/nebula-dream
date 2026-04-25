@@ -9,6 +9,8 @@ export function ResetPasswordForm() {
   const token = params.get("token") ?? "";
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,25 +41,57 @@ export function ResetPasswordForm() {
         <h1 className="text-2xl font-semibold text-white">Réinitialiser le mot de passe</h1>
         <label className="block text-sm text-zinc-200">
           Nouveau mot de passe
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            required
-            minLength={8}
-            className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-white"
-          />
+          <div className="relative mt-1">
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type={showPassword ? "text" : "password"}
+              required
+              minLength={8}
+              className="w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 pr-11 text-white"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-300 hover:text-cyan-200"
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              title={showPassword ? "Masquer" : "Afficher"}
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
         </label>
         <label className="block text-sm text-zinc-200">
           Confirmation
-          <input
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-            type="password"
-            required
-            minLength={8}
-            className="mt-1 w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-white"
-          />
+          <div className="relative mt-1">
+            <input
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+              type={showPasswordConfirm ? "text" : "password"}
+              required
+              minLength={8}
+              className="w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 pr-11 text-white"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPasswordConfirm((value) => !value)}
+              className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-zinc-300 hover:text-cyan-200"
+              aria-label={
+                showPasswordConfirm
+                  ? "Masquer la confirmation du mot de passe"
+                  : "Afficher la confirmation du mot de passe"
+              }
+              title={showPasswordConfirm ? "Masquer" : "Afficher"}
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2">
+                <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
         </label>
         <button
           type="submit"

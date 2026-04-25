@@ -1,8 +1,20 @@
 import Stripe from "stripe";
 import { sendProductAccessEmail, sendPurchaseConfirmationEmail } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { getStripe } from "@/lib/stripe";
 import { getTracks } from "@/lib/tracks";
+
+function splitTotalAcrossItems(totalCents: number, itemCount: number) {
+  if (itemCount <= 0) {
+    return [];
+  }
+
+  const base = Math.floor(totalCents / itemCount);
+  const remainder = totalCents - base * itemCount;
+
+  return Array.from({ length: itemCount }, (_, index) => base + (index < remainder ? 1 : 0));
+}
 
 export async function upsertPaidOrderFromCheckoutSession(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
@@ -36,24 +48,36 @@ export async function upsertPaidOrderFromCheckoutSession(session: Stripe.Checkou
 
   const tracks = await getTracks();
   const trackMap = new Map(tracks.map((track) => [track.slug, track]));
+  const perItemPrices = splitTotalAcrossItems(session.amount_total, uniqueSlugs.length);
 
-  const createdOrder = await prisma.order.create({
-    data: {
-      userId,
-      stripeSessionId: session.id,
-      totalCents: session.amount_total,
-      currency: session.currency ?? "cad",
-      status: "paid",
-      items: {
-        create: uniqueSlugs.map((slug) => ({
-          trackSlug: slug,
-          trackTitle: trackMap.get(slug)?.title ?? slug,
-          unitPriceCents: 199,
-        })),
+  let createdOrder;
+  try {
+    createdOrder = await prisma.order.create({
+      data: {
+        userId,
+        stripeSessionId: session.id,
+        totalCents: session.amount_total,
+        currency: session.currency ?? "cad",
+        status: "paid",
+        items: {
+          create: uniqueSlugs.map((slug, index) => ({
+            trackSlug: slug,
+            trackTitle: trackMap.get(slug)?.title ?? slug,
+            unitPriceCents: perItemPrices[index] ?? 0,
+          })),
+        },
       },
-    },
-    include: { items: true, user: { select: { email: true } } },
-  });
+      include: { items: true, user: { select: { email: true } } },
+    });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return;
+    }
+    throw error;
+  }
 
   const emailItems = createdOrder.items.map((item) => ({
     slug: item.trackSlug,
