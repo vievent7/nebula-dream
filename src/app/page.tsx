@@ -26,7 +26,7 @@ export default async function HomePage() {
   return (
     <div className="mx-auto min-h-screen w-full max-w-7xl px-3 py-4 md:px-8 md:py-6">
       <header className="mb-4 flex flex-wrap items-center justify-between gap-2.5 md:mb-6 md:gap-3">
-        <div>
+        <div className="flex-1 text-left">
           <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">Nebula Dream</p>
           <h1 className="text-2xl font-bold text-white md:text-4xl">Musiques Relaxantes</h1>
         </div>

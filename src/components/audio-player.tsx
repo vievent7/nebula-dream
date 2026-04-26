@@ -123,7 +123,7 @@ export function AudioPlayer({ src, label, maxSeconds }: AudioPlayerProps) {
         <button
           type="button"
           onClick={toggle}
-          className="h-9 w-9 shrink-0 rounded-full border border-cyan-100/50 bg-cyan-200/15 text-xs font-bold text-cyan-100 shadow-[0_0_18px_rgba(56,189,248,0.35)] transition hover:scale-105 hover:bg-cyan-200/25"
+          className="h-11 w-11 shrink-0 rounded-full border border-cyan-100/50 bg-cyan-200/15 text-base font-bold text-cyan-100 shadow-[0_0_18px_rgba(56,189,248,0.35)] transition hover:scale-105 hover:bg-cyan-200/25 md:h-9 md:w-9 md:text-xs"
         >
           {isPlaying ? "II" : ">"}
         </button>
