@@ -12,18 +12,29 @@ export default async function PsaumesGratuitsPage() {
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-7xl px-3 py-6 md:px-8 md:py-10">
-      <section className="mb-5 rounded-2xl border border-white/15 bg-[#0b1120]/75 p-4 text-center backdrop-blur md:mb-8 md:rounded-3xl md:p-8">
-        <h1 className="text-2xl font-bold text-white md:text-4xl">Psaumes en chanson - Acces libre</h1>
-        <p className="mx-auto mt-2.5 max-w-3xl text-sm text-zinc-200 md:mt-4 md:text-base">
-          Ces musiques sont offertes gratuitement, sans inscription, pour accompagner chacun dans
-          son moment de paix.
-        </p>
-        <Link
-          href="/"
-          className="mt-4 inline-flex rounded-lg border border-cyan-200/35 bg-cyan-200/10 px-3 py-2 text-sm text-cyan-100 transition hover:bg-cyan-200/20 md:mt-5"
-        >
-          Retour a l&apos;accueil
-        </Link>
+      <section className="relative mb-5 overflow-hidden rounded-2xl border border-white/15 p-4 text-center backdrop-blur md:mb-8 md:rounded-3xl md:p-8">
+        <Image
+          src="/assets/psaumes-hero.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-[#07101d]/65" />
+        <div className="relative z-10">
+          <h1 className="text-2xl font-bold text-white md:text-4xl">Psaumes en chanson - Acces libre</h1>
+          <p className="mx-auto mt-2.5 max-w-3xl text-sm text-zinc-200 md:mt-4 md:text-base">
+            Ces musiques sont offertes gratuitement, sans inscription, pour accompagner chacun dans
+            son moment de paix.
+          </p>
+          <Link
+            href="/"
+            className="mt-4 inline-flex rounded-lg border border-cyan-200/35 bg-cyan-200/10 px-3 py-2 text-sm text-cyan-100 transition hover:bg-cyan-200/20 md:mt-5"
+          >
+            Retour a l&apos;accueil
+          </Link>
+        </div>
       </section>
 
       {psalms.length === 0 ? (
